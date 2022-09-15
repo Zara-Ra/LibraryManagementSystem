@@ -24,12 +24,12 @@ public class UserService implements LibraryService{
     }
 
     @Override
-    public int register(Account account, User user) throws SQLException {
+    public boolean register(Account account, User user) throws SQLException {
         accountRepo.addAccount(account);
         int accountID = accountRepo.findAccountID(account);
         user.getAccount().setID(accountID);
-        userRepo.addUser(user);
-        return 0;
+        return userRepo.addUser(user);
+
     }
 
     public void borrowBook(User user, Book book) throws SQLException {

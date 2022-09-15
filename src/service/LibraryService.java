@@ -8,5 +8,5 @@ import java.sql.SQLException;
 public interface LibraryService {
     Account login(String username,String password) throws SQLException;
     boolean logout(User user);
-    int register(Account account, User user) throws SQLException;
+    boolean register(Account account, User user) throws SQLException;
 }

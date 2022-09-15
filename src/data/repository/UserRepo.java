@@ -18,12 +18,12 @@ public class UserRepo {
         preparedStatement.setString(2,user.getPhonenumber());
         preparedStatement.setInt(3, user.getAccount().getID());
         if(user instanceof Staff){
-            preparedStatement.setInt(4,((Staff) user).getStaffNum());
+            preparedStatement.setString(4,((Staff) user).getStaffNum());
             preparedStatement.setString(5,((Staff) user).getDept().toString());
             preparedStatement.setString(6,null);
         }
         else if(user instanceof Student){
-            preparedStatement.setInt(4,((Student) user).getSutdentNum());
+            preparedStatement.setString(4,((Student) user).getSutdentNum());
             preparedStatement.setString(5,null);
             preparedStatement.setString(6,((Student) user).getClasses().toString());
         }
@@ -41,7 +41,7 @@ public class UserRepo {
             String name = resultSet.getString(2);
             String phone = resultSet.getString(3);
             int account = resultSet.getInt(4);
-            int personalno = resultSet.getInt(5);
+            String personalno = resultSet.getString(5);
             String depttype = resultSet.getString(6);
             String clastype = resultSet.getString(7);
             user = new Student(name,phone,personalno, ClassType.valueOf(clastype));

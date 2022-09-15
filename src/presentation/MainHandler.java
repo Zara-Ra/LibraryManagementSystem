@@ -18,9 +18,12 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class MainHandler {
-    public UserService userService = new UserService();
-    public LibrarianService librarianService = new LibrarianService();
-    public BookService bookService = new BookService();
+    private UserService userService = new UserService();
+    private LibrarianService librarianService = new LibrarianService();
+    private BookService bookService = new BookService();
+
+    private User user;
+    private Account account;
     public Scanner scanner = ApplicationConstant.getScanner();
 
     /*public void FirstMenu() throws SQLException {
@@ -54,7 +57,14 @@ public class MainHandler {
                 System.out.println("Press 1 --> Register as Student");
                 System.out.println("Press 2 --> Register as Staff");
                 int usertype = Integer.parseInt(scanner.nextLine());
-                registerUser(UserType.values()[usertype]);
+                if(registerUser(UserType.values()[usertype])){
+                    System.out.println("New User Registered Successfully!");
+                    userMenu();
+                }
+                else{
+                    System.out.println("Unable to Register New User...");
+                    firstMenu();
+                }
                 break;
             case 2:
                 userMenu();
@@ -73,9 +83,8 @@ public class MainHandler {
     public void librarianMenu(){
 
     }
-    public void registerUser(UserType userType) throws SQLException {
-        User user = null;
-        Account account = null;
+    public boolean registerUser(UserType userType) throws SQLException {
+
         System.out.println("Enter Username: ");
         String username = scanner.nextLine();
         System.out.println("Enter Password: ");
@@ -89,18 +98,18 @@ public class MainHandler {
 
         if(userType == UserType.STUDENT){
             System.out.println("Enter Student Number: ");
-            int studeneno = Integer.parseInt(scanner.nextLine());
+            String studeneno = scanner.nextLine();
             System.out.println("Enter Class type:(BACHLOR,MASTER,DOCTORIAN" );
             ClassType classType = ClassType.valueOf(scanner.nextLine());
             user = new Student(name,phoneNo,studeneno,classType);
         }
         else if(userType == UserType.STAFF){
             System.out.println("Enter Staff Number: ");
-            int staffno = Integer.parseInt(scanner.nextLine());
+            String staffno = scanner.nextLine();
             System.out.println("Enter Department:(CULTURAL,PUBLIC,IT,HR ,STATE) " );
             DepatType deptType = DepatType.valueOf(scanner.nextLine());
             user = new Staff(name,phoneNo,staffno,deptType);
         }
-        userService.register(account,user);
+        return userService.register(account,user);
     }
 }

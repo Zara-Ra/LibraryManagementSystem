@@ -4,10 +4,10 @@ import data.enums.DepatType;
 import data.model.Account;
 
 public class Staff extends User{
-    private int staffNum;
+    private String  staffNum;
     private DepatType dept;
 
-    public Staff(String name, String phonenumber, int staffNum, DepatType dept) {
+    public Staff(String name, String phonenumber, String staffNum, DepatType dept) {
         super(name, phonenumber);
         this.staffNum = staffNum;
         this.dept = dept;
@@ -17,11 +17,11 @@ public class Staff extends User{
         super(name, phonenumber, account);
     }
 
-    public int getStaffNum() {
+    public String getStaffNum() {
         return staffNum;
     }
 
-    public void setStaffNum(int staffNum) {
+    public void setStaffNum(String staffNum) {
         this.staffNum = staffNum;
     }
 
