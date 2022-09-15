@@ -7,6 +7,12 @@ public class Staff extends User{
     private int staffNum;
     private DepatType dept;
 
+    public Staff(String name, String phonenumber, int staffNum, DepatType dept) {
+        super(name, phonenumber);
+        this.staffNum = staffNum;
+        this.dept = dept;
+    }
+
     public Staff(String name, String phonenumber, Account account) {
         super(name, phonenumber, account);
     }

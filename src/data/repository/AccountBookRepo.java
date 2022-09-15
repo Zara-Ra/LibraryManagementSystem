@@ -21,7 +21,7 @@ public class AccountBookRepo {
 
     public boolean acceptRetrunBook(int bookID, int userID) throws SQLException {
         boolean result = false;
-        String sql = "SELECT account_id FROM account_book WHERE book_id = ? , account_id = ?";
+        String sql = "SELECT account_id FROM account_book WHERE book_id = ? AND account_id = ?";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
         preparedStatement.setInt(1,bookID);
         preparedStatement.setInt(2,userID);

@@ -14,7 +14,7 @@ public class LibraryManagementSystem {
 
     public static void main(String[] args) throws SQLException {
         MainHandler mainHandler = new MainHandler();
-        mainHandler.FirstMenu();
+        mainHandler.firstMenu();
     }
 
 }

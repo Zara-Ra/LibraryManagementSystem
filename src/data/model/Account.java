@@ -10,6 +10,11 @@ public class Account {
     private int noReturned;
     private int fineAmount;
 
+    public Account(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public Account(int ID, String username, String password, int noBorrowed, int noReserved, int noLost, int noReturned, int fineAmount) {
         this.ID = ID;
         this.username = username;
