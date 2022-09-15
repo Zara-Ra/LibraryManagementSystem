@@ -5,6 +5,7 @@ import data.repository.BookRepo;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 
 public class BookService {
     private BookRepo bookRepo = new BookRepo();
@@ -26,5 +27,9 @@ public class BookService {
     }
     public Book searchBook(String title) throws SQLException {
         return bookRepo.searchBook(title);
+    }
+
+    public List<Book> showAllBooks() throws SQLException {
+        return bookRepo.allBooks();
     }
 }

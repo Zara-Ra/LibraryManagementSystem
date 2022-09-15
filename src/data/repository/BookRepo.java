@@ -7,6 +7,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookRepo {
     public void addBook(Book book) throws SQLException {
@@ -63,5 +65,19 @@ public class BookRepo {
             result = resultSet.getInt(1);
         }
         return result;
+    }
+
+    public List<Book> allBooks() throws SQLException {
+        List<Book> bookList = new ArrayList<>();
+        String sql = "SELECT title, author FROM book";
+        PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()){
+            String bookTitle = resultSet.getString(1);
+            String author = resultSet.getString(2);
+            Book book = new Book(bookTitle,author);
+            bookList.add(book);
+        }
+        return bookList;
     }
 }

@@ -55,7 +55,7 @@ public class AccountRepo {
         return result;
     }
 
-    public void borrowBook(Account account, Book book) throws SQLException {
+    public void borrowBook(Account account, int bookID) throws SQLException {
         String sql = "UPDATE account SET borrowed = (SELECT borrowed FROM account WHERE id = ?) +1 WHERE id = ?";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
         preparedStatement.setInt(1,account.getID());
@@ -65,12 +65,12 @@ public class AccountRepo {
         String query = "INSERT INTO account_book(account_id,book_id) VALUES (?,?)";
         PreparedStatement preparedStatement2 = ApplicationConstant.getConnection().prepareStatement(query);
         preparedStatement2.setInt(1,account.getID());
-        preparedStatement2.setInt(2,book.getID());
+        preparedStatement2.setInt(2,bookID);
         preparedStatement2.executeUpdate();
 
     }
 
-    public void returnBook(Account account, Book book) throws SQLException {
+    public void returnBook(Account account, int bookID) throws SQLException {
         String sql = "UPDATE account SET returned = (SELECT returned FROM account WHERE id = ?) +1 WHERE id = ?";
         PreparedStatement preparedStatement = ApplicationConstant.getConnection().prepareStatement(sql);
         preparedStatement.setInt(1,account.getID());
@@ -80,7 +80,7 @@ public class AccountRepo {
         String query = "DELETE FROM account_book WHERE account_id = ? AND book_id = ?";
         PreparedStatement preparedStatement2 = ApplicationConstant.getConnection().prepareStatement(query);
         preparedStatement2.setInt(1,account.getID());
-        preparedStatement2.setInt(2,book.getID());
+        preparedStatement2.setInt(2,bookID);
         preparedStatement2.executeUpdate();
     }
 

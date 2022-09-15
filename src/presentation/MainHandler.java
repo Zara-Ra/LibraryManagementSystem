@@ -15,7 +15,10 @@ import utils.ApplicationConstant;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
+
+import static java.lang.System.exit;
 
 public class MainHandler {
     private UserService userService = new UserService();
@@ -23,7 +26,6 @@ public class MainHandler {
     private BookService bookService = new BookService();
 
     private User user;
-    private Account account;
     public Scanner scanner = ApplicationConstant.getScanner();
 
     /*public void FirstMenu() throws SQLException {
@@ -51,6 +53,7 @@ public class MainHandler {
         System.out.println("Press 2 --> Log in");
         System.out.println("Press 3 --> Log out");
         System.out.println("Press 4 --> Sign in as Librarian");
+        System.out.println("Press 5 --> Exit");
         int nextStep = Integer.parseInt(scanner.nextLine());
         switch (nextStep){
             case 1:
@@ -68,7 +71,7 @@ public class MainHandler {
                 break;
             case 2:
                 if(loginUser()) {
-                    System.out.println("User Log in Successfull");
+                    System.out.println("User Log in Successful");
                     userMenu();
                 }
                 else {
@@ -77,18 +80,53 @@ public class MainHandler {
                 }
                 break;
             case 3:
+                if(logOutUser()){
+                    System.out.println("User Log out Successful");
+                    firstMenu();
+                }
                 break;
             case 4:
                 librarianMenu();
                 break;
+            default:
+                exit(0);
         }
 
     }
-    public void userMenu(){
+    public void userMenu() throws SQLException {
+        System.out.println("Press 1 --> Borrow Book");
+        System.out.println("Press 2 --> Return Book");
+        System.out.println("Press 3 --> Previous Menu");
+        int nextStep = Integer.parseInt(scanner.nextLine());
+        switch (nextStep) {
+            case 1:
+                showAllBookInfo();
+                borrowBook();
+                userMenu();
+                break;
+            case 2:
+                returnBook();
+                userMenu();
+                break;
+            case 3:
+                firstMenu();
+                break;
+        }
 
-    }
+        }
     public void librarianMenu(){
-
+        System.out.println("Press 1 --> Add Book to Library");
+        System.out.println("Press 2 --> Delete a Book from Library");
+        System.out.println("Press 3 --> Mark a Book as Lost");
+        int nextStep = Integer.parseInt(scanner.nextLine());
+        switch (nextStep) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
     }
     public boolean registerUser(UserType userType) throws SQLException {
 
@@ -96,7 +134,7 @@ public class MainHandler {
         String username = scanner.nextLine();
         System.out.println("Enter Password: ");
         String password = scanner.nextLine();
-        account = new Account(username,password);
+        Account account = new Account(username,password);
 
         System.out.println("Enter Full name: ");
         String name = scanner.nextLine();
@@ -126,12 +164,34 @@ public class MainHandler {
         String username = scanner.nextLine();
         System.out.println("Enter Password: ");
         String password = scanner.nextLine();
-        account = userService.login(username,password);
+        Account account = userService.login(username,password);
         if(account != null) {
             user = userService.findUserByAccountID(account.getID());
             user.setAccount(account);
             result = true;
         }
         return result;
+    }
+    public boolean logOutUser() {
+        return userService.logout(user);
+    }
+    public void returnBook() throws SQLException {
+        System.out.println("Enter the Book Title to Return: ");
+        String bookTitle = scanner.nextLine();
+        userService.returnBook(user,bookTitle);
+        System.out.println("Booked Returned to Library!");
+    }
+    public void showAllBookInfo() throws SQLException {
+        System.out.println("All the Books Availabe in the Library: ");
+        List<Book> bookList = userService.showAllBooks();
+        for (int i = 0; i < bookList.size(); i++) {
+            System.out.println(bookList.get(i));
+        }
+    }
+    public void borrowBook() throws SQLException {
+        System.out.println("Enter the Book Title to Borrow: ");
+        String bookTitle = scanner.nextLine();
+        userService.borrowBook(user,bookTitle);
+        System.out.println("Book Borrowed!");
     }
 }

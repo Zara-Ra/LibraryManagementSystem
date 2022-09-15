@@ -20,6 +20,11 @@ public class Book {
         this.ISBN = ISBN;
     }
 
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+    }
+
     public Book(String title, String author, String publication, String ISBN, Date dueDate) {
         this.title = title;
         this.author = author;
@@ -86,14 +91,6 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "ID=" + ID +
-                ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", publication='" + publication + '\'' +
-                ", ISBN='" + ISBN + '\'' +
-                ", reservStatus=" + reservStatus +
-                ", dueDate=" + dueDate +
-                '}';
+        return "Title: "+title+" Author: "+author;
     }
 }

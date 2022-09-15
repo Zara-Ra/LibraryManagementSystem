@@ -7,11 +7,13 @@ import data.repository.AccountRepo;
 import data.repository.UserRepo;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserService implements LibraryService{
     private AccountRepo accountRepo = new AccountRepo();
     private UserRepo userRepo = new UserRepo();
     private AccountService accountService = new AccountService();
+    private BookService bookService = new BookService();
     @Override
     public Account login(String username, String password) throws SQLException {
         return accountRepo.login(username,password);
@@ -32,13 +34,21 @@ public class UserService implements LibraryService{
 
     }
 
-    public void borrowBook(User user, Book book) throws SQLException {
-        accountService.borrowBook(user.getAccount(),book);
+    public void borrowBook(User user, String bookTitle) throws SQLException {
+        int bookID = bookService.getBookID(bookTitle);
+        accountService.borrowBook(user.getAccount(),bookID);
     }
-    public void returnBook(User user,Book book) throws SQLException{
-        accountService.returnBook(user.getAccount(),book);
+    public void returnBook(User user,String bookTitle) throws SQLException{
+        int bookID = bookService.getBookID(bookTitle);
+        if(bookID != 0) {
+            accountService.returnBook(user.getAccount(), bookID);
+        }
     }
     public User findUserByAccountID(int accountID) throws SQLException {
         return userRepo.findUserByAccountID(accountID);
+    }
+
+    public List<Book> showAllBooks() throws SQLException {
+        return bookService.showAllBooks();
     }
 }
