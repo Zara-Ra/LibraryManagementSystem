@@ -1,6 +1,7 @@
 package data.repository;
 
 import data.enums.ClassType;
+import data.enums.DepatType;
 import data.model.user.Staff;
 import data.model.user.Student;
 import data.model.user.User;
@@ -44,7 +45,12 @@ public class UserRepo {
             String personalno = resultSet.getString(5);
             String depttype = resultSet.getString(6);
             String clastype = resultSet.getString(7);
-            user = new Student(name,phone,personalno, ClassType.valueOf(clastype));
+            if(depttype != null){
+                user = new Staff(name,phone,personalno, DepatType.valueOf(depttype));
+            }
+            else if (clastype != null) {
+                user = new Student(name,phone,personalno, ClassType.valueOf(clastype));
+            }
         }
         return user;
     }

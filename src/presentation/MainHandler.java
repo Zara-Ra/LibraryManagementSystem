@@ -67,7 +67,14 @@ public class MainHandler {
                 }
                 break;
             case 2:
-                userMenu();
+                if(loginUser()) {
+                    System.out.println("User Log in Successfull");
+                    userMenu();
+                }
+                else {
+                    System.out.println("Unable to Log in");
+                    firstMenu();
+                }
                 break;
             case 3:
                 break;
@@ -110,6 +117,21 @@ public class MainHandler {
             DepatType deptType = DepatType.valueOf(scanner.nextLine());
             user = new Staff(name,phoneNo,staffno,deptType);
         }
+        user.setAccount(account);
         return userService.register(account,user);
+    }
+    public boolean loginUser() throws SQLException{
+        boolean result = false;
+        System.out.println("Enter Username: ");
+        String username = scanner.nextLine();
+        System.out.println("Enter Password: ");
+        String password = scanner.nextLine();
+        account = userService.login(username,password);
+        if(account != null) {
+            user = userService.findUserByAccountID(account.getID());
+            user.setAccount(account);
+            result = true;
+        }
+        return result;
     }
 }
